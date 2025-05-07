@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -67,20 +66,20 @@ model Doctor {
   id          Int        @id @default(autoincrement())
   firstName   String
   secondName  String
-  documents   Document[] @relation("Author")
+  documents   Document[]
 }
 
 model Document {
   id            Int           @id @default(autoincrement())
-  patientId     Int
-  doctorId      Int
-  patient       Patient       @relation(fields: [patientId], references: [id])
-  doctor        Doctor        @relation("Author", fields: [doctorId], references: [id])
-  reportDate    DateTime
-  subject       String
-  contactSource String
-  storeIn       StoreType
-  category      CategoryType
+  patientId     Int?
+  doctorId      Int?
+  patient       Patient?       @relation(fields: [patientId], references: [id])
+  doctor        Doctor?        @relation(fields: [doctorId], references: [id])
+  reportDate    DateTime?
+  subject       String?
+  contactSource String?
+  storeIn       StoreType?
+  category      CategoryType?
   fileUrl       String
   status        ImportStatus  @default(PENDING)
   importedAt    DateTime?
