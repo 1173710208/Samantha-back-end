@@ -5,10 +5,11 @@ import { ConfigModule } from '@nestjs/config';
 import { DocumentService } from './document.service';
 import { SupabaseService } from '../supabase/supabase.service';
 import { PrismaModule } from '../prisma/prisma.module';
+import { LlmService } from '../llm/llm.service';
 
 @Module({
-  imports: [ConfigModule, PrismaModule], 
+  imports: [ConfigModule, PrismaModule],
   controllers: [DocumentController],
-  providers: [DocumentService, SupabaseService],
+  providers: [DocumentService, SupabaseService, LlmService],
 })
 export class DocumentModule {}

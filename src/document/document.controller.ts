@@ -2,10 +2,10 @@
 import {
     Controller,
     Post,
-    UploadedFile,
+    UploadedFiles,
     UseInterceptors,
   } from '@nestjs/common';
-  import { FileInterceptor } from '@nestjs/platform-express';
+  import { FilesInterceptor } from '@nestjs/platform-express';
   import { DocumentService } from './document.service';
   
   @Controller('documents')
@@ -13,8 +13,8 @@ import {
     constructor(private readonly documentService: DocumentService) {}
   
     @Post('upload')
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadPdf(@UploadedFile() file: Express.Multer.File) {
-      return this.documentService.uploadAndSave(file);
+    @UseInterceptors(FilesInterceptor('files'))
+    async uploadMultiplePdfs(@UploadedFiles() files: Express.Multer.File[]) {
+      return this.documentService.uploadAndSaveMultiple(files);
     }
   }

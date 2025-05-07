@@ -60,6 +60,8 @@ model Patient {
   phone       String?
   email       String?
   documents   Document[]
+
+  @@unique([firstName, secondName], name: "firstName_secondName")
 }
 
 model Doctor {
@@ -67,6 +69,8 @@ model Doctor {
   firstName   String
   secondName  String
   documents   Document[]
+
+  @@unique([firstName, secondName], name: "firstName_secondName")
 }
 
 model Document {
