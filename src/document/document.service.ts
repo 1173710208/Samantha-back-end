@@ -133,5 +133,34 @@ export class DocumentService {
       },
     });    
   }
+
+  async bulkImportReadyDocuments() {
+    const readyDocs = await this.prisma.document.findMany({
+      where: {
+        status: 'PENDING',
+        reportDate: { not: null },
+        subject: { not: null },
+        contactSource: { not: null },
+        storeIn: { not: null },
+        category: { not: null },
+        patientId: { not: null },
+        doctorId: { not: null },
+      },
+    });
   
+    const now = new Date();
+    const updates = readyDocs.map((doc) =>
+      this.prisma.document.update({
+        where: { id: doc.id },
+        data: {
+          status: 'IMPORTED',
+          importedAt: now,
+        },
+      })
+    );
+  
+    await this.prisma.$transaction(updates);
+  
+    return { count: readyDocs.length };
+  }
 }

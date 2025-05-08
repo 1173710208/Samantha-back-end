@@ -45,4 +45,9 @@ import {
     ) {
       return this.documentService.updateDocument(id, updateData);
     }
+
+    @Post('bulk-import')
+    bulkImport() {
+      return this.documentService.bulkImportReadyDocuments();
+    }
   }
