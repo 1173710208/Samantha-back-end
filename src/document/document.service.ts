@@ -107,9 +107,31 @@ export class DocumentService {
   }
   
   async updateDocument(id: number, updateData: any) {
+    const {
+      patientId,
+      doctorId,
+      reportDate,
+      category,
+      ...rest
+    } = updateData;
+    
+    // Convert to enum format: "Referral letter" → "Referral_letter"
+    const enumCategory = category
+      ? category.replace(/ /g, '_').replace(/-/g, '_')
+      : undefined;
+    
     return this.prisma.document.update({
       where: { id },
-      data: updateData,
-    });
+      data: {
+        ...rest,
+        category: enumCategory,
+        reportDate: reportDate ? new Date(reportDate) : null,
+        patient: patientId ? { connect: { id: patientId } } : undefined,
+        doctor: doctorId ? { connect: { id: doctorId } } : undefined,
+        status: 'IMPORTED',
+        importedAt: new Date(),
+      },
+    });    
   }
+  
 }
