@@ -50,7 +50,7 @@ enum ImportStatus {
   IMPORTED
 }
 
-// 模型定义
+
 model Patient {
   id          Int        @id @default(autoincrement())
   firstName   String

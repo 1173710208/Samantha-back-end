@@ -90,4 +90,26 @@ export class DocumentService {
     }
     return results;
   }
+
+  async getDocumentsByStatus(status: ImportStatus) {
+    return this.prisma.document.findMany({
+      where: { status },
+      include: { patient: true, doctor: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+  
+  async getDocumentById(id: number) {
+    return this.prisma.document.findUnique({
+      where: { id },
+      include: { patient: true, doctor: true },
+    });
+  }
+  
+  async updateDocument(id: number, updateData: any) {
+    return this.prisma.document.update({
+      where: { id },
+      data: updateData,
+    });
+  }
 }
